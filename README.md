@@ -12,12 +12,16 @@ This isn't "just another test framework". This is all based on the Microsoft MST
 
 ## Usage
 
-1. Create a new blank Xamarin.Forms Project targeting iOS and Android (shared or .NET Standard)
-2. Add a Nuget reference to [`MSTestX.UnitTestRunner`](https://www.nuget.org/packages/MSTestX.UnitTestRunner)
-3. Delete `MainPage.xaml` and `App.xaml`
-4. Android: In Android's MainActivity.cs file change the class to inherit from `MSTestX.TestRunnerActivity`
-   iOS: Change the AppDelegate to inherit from `MSTestX.TestRunnerApplicationDelegate`
-5. In the common project add a unit test class with the following content:
+1. Inside your solution, create a new blank Xamarin.Forms Project targeting iOS and Android (shared or .NET Standard)
+2. In NewProject.Android: 
+   A) Delete `MainPage.xaml` and `App.xaml`
+   B) In MainActivity.cs file change the class to inherit from `MSTestX.TestRunnerActivity`
+   C) In MainActivity.cs file, remove all code from OnCreate except base.OnCreate line
+3. In NewProject.iOS: 
+   (A) Change the AppDelegate to inherit from `MSTestX.TestRunnerApplicationDelegate`
+4. In the new common project (blank projects parent aka NewProject, not NewProject.Droid or NewProject.iOS):
+   A) Add a Nuget reference to [`MSTestX.UnitTestRunner`](https://www.nuget.org/packages/MSTestX.UnitTestRunner)
+   B) Add a unit test class with the following content:
 
 ```cs
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -37,9 +41,15 @@ namespace MyUnitTestApp
 }
 ```
 
-Note if you put your tests in a class library, the iOS app, will need to reference one of the types in the AppDelegate, or the compiler will strip out the unit test DLL (this isn't an issue if you use a shared project with tests).
+Note: Tests in other projects in the same solution will be found as well
+
+Note: if you put your tests in a class library, the iOS app, will need to reference one of the types in the AppDelegate, or the compiler will strip out the unit test DLL (this isn't an issue if you use a shared project with tests).
 
 Note: This is not a fork. The submodule literally uses the code as-is from TestFX but compiled so it can run and be referenced by a Xamarin App.
+
+## How To Run
+
+To launch, right click on new MSTest project NewProject.Android and click 'Debug > Start new instance'
 
 ### Automation
 
